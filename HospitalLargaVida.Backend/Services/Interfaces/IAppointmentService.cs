@@ -7,6 +7,8 @@ namespace HospitalLargaVida.Backend.Services.Interfaces
     {
         Task<AppointmentDetailDto> CreateAppointmentAsync(CreateAppointmentDto appointmentDto);
 
+        Task<bool> DeleteAppointmentAsync(int id);
+
         Task<AppointmentDetailDto> GetAppointmentByIdAsync(int id);
 
         Task<ICollection<AppointmentDetailDto>> GetAllAppointmentsAsync();

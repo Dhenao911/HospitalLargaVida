@@ -28,6 +28,8 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
                 return false;
             }
 
+            _context.Doctors.Remove(doctor);
+
             return await SaveChanges();
         }
 

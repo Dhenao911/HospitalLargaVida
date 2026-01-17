@@ -25,7 +25,8 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
                 throw new InvalidOperationException($"El paciente con ID {patientDto.PatientId} ya existe.");
             }
 
-            // mapear de DTO a entidad
+            // mapear de DTO a entidad para crearun nuevo objeto paciente 
+
             var patientNew = _mapper.Map<Patient>(patientDto);
 
             // guardar en la base de datos
@@ -63,7 +64,7 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
         public async Task<ICollection<PatientDetailDto>> GetAllPatient()
         {
             var patients = await _patientRepository.GetAllPatient();
-            if (patients == null)
+            if (!patients.Any())
             {
                 throw new InvalidOperationException($"No existen pacientes en la base de datos");
             }

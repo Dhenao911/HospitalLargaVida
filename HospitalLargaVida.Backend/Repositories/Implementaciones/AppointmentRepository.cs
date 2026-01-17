@@ -1,5 +1,4 @@
 ﻿using HospitalLargaVida.Backend.DAL.Data;
-using HospitalLargaVida.Backend.DAL.Enums;
 using HospitalLargaVida.Backend.DAL.Models;
 using HospitalLargaVida.Backend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +20,24 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
             return await SaveChanges();
         }
 
+        public async Task<bool> DeleteAppointmentAsync(int id)
+        {
+            var appointment = await GetAppointmentByIdAsync(id);
+            if (appointment == null)
+            {
+                return false;
+            }
+
+            _context.Appointments.Remove(appointment);
+            return await SaveChanges();
+        }
+
         public async Task<ICollection<Appointment>> GetAllAppointmentsAsync()
         {
             return await _context
                  .Appointments
+                 .Include(a => a.Patient)
+                 .Include(a => a.Doctor)
                  .ToListAsync();
         }
 
@@ -32,6 +45,8 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
         {
             return await _context
                 .Appointments
+                 .Include(a => a.Patient)
+                 .Include(a => a.Doctor)
                 .FirstOrDefaultAsync(a => a.AppointmentId == id);
         }
 
@@ -39,7 +54,7 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
         {
             return await _context
                 .Appointments
-                .Where(a=>a.DoctorId==doctorId)
+                .Where(a => a.DoctorId == doctorId)
                 .ToListAsync();
         }
 

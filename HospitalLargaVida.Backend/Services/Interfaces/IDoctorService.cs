@@ -14,5 +14,6 @@ namespace HospitalLargaVida.Backend.Services.Interfaces
         Task<DoctorDetailsDto> GetDoctorByIdAsync(string doctorId);
 
         Task<DoctorDetailsDto> UpdateDoctorAsync(UpdateDoctorDto doctordTO,String doctorId);
+
     }
 }

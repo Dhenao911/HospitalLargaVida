@@ -70,7 +70,23 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
             }
 
             return _mapper.Map<AppointmentDetailDto>(appointment);
+        }
 
+        public async Task<bool> DeleteAppointmentAsync(int id)
+        {
+            var appointment = await _appointmentRepository.GetAppointmentByIdAsync(id);
+            if (appointment == null)
+            {
+                throw new InvalidOperationException($"La cita con ID {id} no existe.");
+            }
+
+            var deleteAppointment = await _appointmentRepository.DeleteAppointmentAsync(id);
+            if (!deleteAppointment)
+            {
+                throw new InvalidOperationException("No se pudo eliminar la cita.");
+            }
+
+            return deleteAppointment;
         }
 
         public async Task<ICollection<AppointmentDetailDto>> GetAllAppointmentsAsync()

@@ -7,6 +7,8 @@ namespace HospitalLargaVida.Backend.Repositories.Interfaces
     {
         Task<bool> CreateAppointmentAsync(Appointment appointment);
 
+        Task<bool> DeleteAppointmentAsync(int id);
+
         Task<Appointment> GetAppointmentByIdAsync(int id);
 
         Task<ICollection<Appointment>> GetDoctorAppointmentByIdAsunc(string doctorId);

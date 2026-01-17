@@ -23,7 +23,7 @@ namespace HospitalLargaVida.Backend.DAL.Data
                 // Definicion de la clave primaria y propiedades de la entidad Patient
                 x.HasKey(p => p.PatientId);
                 x.Property(p => p.PatientId).ValueGeneratedNever().IsRequired().HasMaxLength(20);
-                x.Property(p => p.NameComplete).IsRequired().HasMaxLength(100);<
+                x.Property(p => p.NamePatient).IsRequired().HasMaxLength(100);
                 x.Property(p => p.Age).IsRequired();
                 x.Property(p => p.Height).IsRequired().HasPrecision(10, 2);
                 x.Property(p => p.Weight).IsRequired().HasPrecision(10, 2);
@@ -47,7 +47,7 @@ namespace HospitalLargaVida.Backend.DAL.Data
                 x.HasKey(d => d.DoctorId);
 
                 x.Property(d => d.DoctorId).ValueGeneratedNever().IsRequired().HasMaxLength(100);
-                x.Property(d => d.NameComplete).IsRequired().HasMaxLength(100);
+                x.Property(d => d.NameDoctor).IsRequired().HasMaxLength(100);
                 x.Property(d => d.Specialty).IsRequired().HasMaxLength(30);
             });
 

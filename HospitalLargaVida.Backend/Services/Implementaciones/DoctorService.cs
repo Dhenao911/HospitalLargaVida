@@ -21,7 +21,7 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
         {
             var doctorExist = await _doctorRepository.GetDoctorByIdAsync(doctorDto.DoctorId);
 
-            if (doctorExist == null)
+            if (doctorExist != null)
             {
                 throw new InvalidOperationException($"El doctor con ID {doctorDto.DoctorId} ya existe.");
             }
