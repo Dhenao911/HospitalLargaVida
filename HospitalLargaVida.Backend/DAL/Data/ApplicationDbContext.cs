@@ -13,6 +13,8 @@ namespace HospitalLargaVida.Backend.DAL.Data
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patient> Patients { get; set; }
 
+        public DbSet<Agenda> Agendas { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -55,18 +57,29 @@ namespace HospitalLargaVida.Backend.DAL.Data
             {
                 x.HasKey(a => a.AppointmentId);
                 x.Property(a => a.AppointmentId).ValueGeneratedOnAdd();
-                x.Property(a => a.Status).HasConversion<string>().HasMaxLength(20);
 
                 x.HasOne(p => p.Patient)// Una cita pertenece a un paciente
                 .WithMany(a => a.Appointments)// Un paciente puede tener muchas citas
                 .HasForeignKey(a => a.PatientId)// Llave foranea en la tabla Appointment
                 .OnDelete(DeleteBehavior.Restrict);// Restriccion para evitar eliminacion en cascada
 
-                x.HasOne(d => d.Doctor)//Una cita pertenece a un doctor
-                .WithMany(a => a.Appointments)//Un doctor puede tener muchas citas
-                .HasForeignKey(a => a.DoctorId)// Llave foranea en la tabla Appointment
+                x.HasOne(a => a.Agenda)// Una cita pertenece a una agenda
+                .WithOne(ag => ag.Appointment)// Una agenda tiene una cita
+                .HasForeignKey<Appointment>(a => a.AgendaId)// Llave foranea en la tabla Appointment
                 .OnDelete(DeleteBehavior.Restrict);// Restriccion para evitar eliminacion en cascada
             });
+
+            modelBuilder.Entity<Agenda>(x =>
+            {
+                x.HasKey(a => a.IdAgenda);
+                x.Property(a => a.IdAgenda).ValueGeneratedOnAdd();
+
+                x.HasOne(d => d.Doctor)
+                .WithMany(a => a.Agendas)
+                .HasForeignKey(a => a.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
+            }
+            );
         }
     }
 }

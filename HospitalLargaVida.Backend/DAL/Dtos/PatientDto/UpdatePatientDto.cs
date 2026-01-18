@@ -3,10 +3,10 @@
 namespace HospitalLargaVida.Backend.DAL.Dtos.PatientDto
 {
     public class UpdatePatientDto
+
     {
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [Range(0, 120, ErrorMessage = "el campo {0} no permite numeros negativos")]
-        public int Age { get; set; }// Edad del paciente
+        public DateTime DateOfBirth { get; set; }//Fecha Nacimiento
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Range(0.5, 250, ErrorMessage = "el campo {0} no permite numeros negativos")]
@@ -23,7 +23,6 @@ namespace HospitalLargaVida.Backend.DAL.Dtos.PatientDto
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(100, ErrorMessage = "El campo {0} tiene un maximo de {1} caracteres")]
-        //[RegularExpression(@"^\d(7,10)+$", ErrorMessage = "El campo {0} solo permite numeros")]
         public string PhoneNumber { get; set; }// Numero de telefono del paciente
     }
 }

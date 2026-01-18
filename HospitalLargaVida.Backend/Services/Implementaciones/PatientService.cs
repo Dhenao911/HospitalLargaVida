@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HospitalLargaVida.Backend.DAL.Dtos.PatientDto;
 using HospitalLargaVida.Backend.DAL.Models;
+using HospitalLargaVida.Backend.Helpers;
 using HospitalLargaVida.Backend.Repositories.Interfaces;
 using HospitalLargaVida.Backend.Services.Interfaces;
 
@@ -25,9 +26,10 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
                 throw new InvalidOperationException($"El paciente con ID {patientDto.PatientId} ya existe.");
             }
 
-            // mapear de DTO a entidad para crearun nuevo objeto paciente 
+            // mapear de DTO a entidad para crearun nuevo objeto paciente
 
             var patientNew = _mapper.Map<Patient>(patientDto);
+            patientNew.Age = CalculateAge.calcularEdad(patientDto.DateOfBirth);
 
             // guardar en la base de datos
             var PatientCreated = await _patientRepository.CreatePatientAsync(patientNew);
@@ -58,12 +60,12 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
             }
 
             return patientDeleted;
-
         }
 
         public async Task<ICollection<PatientDetailDto>> GetAllPatient()
         {
             var patients = await _patientRepository.GetAllPatient();
+
             if (!patients.Any())
             {
                 throw new InvalidOperationException($"No existen pacientes en la base de datos");
@@ -104,6 +106,8 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
                     throw new InvalidOperationException($"El email {patientDto.Email} ya existe en uso por otro paciente.");
                 }
             }
+
+            patienExist.Age = CalculateAge.calcularEdad(patientDto.DateOfBirth);
 
             //mapear sobre la entidad existente
 

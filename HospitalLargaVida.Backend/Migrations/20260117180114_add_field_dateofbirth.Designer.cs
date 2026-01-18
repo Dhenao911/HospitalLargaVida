@@ -4,6 +4,7 @@ using HospitalLargaVida.Backend.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalLargaVida.Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260117180114_add_field_dateofbirth")]
+    partial class add_field_dateofbirth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,31 +24,6 @@ namespace HospitalLargaVida.Backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("HospitalLargaVida.Backend.DAL.Models.Agenda", b =>
-                {
-                    b.Property<int>("IdAgenda")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAgenda"));
-
-                    b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("statusAgenda")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdAgenda");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("Agendas");
-                });
 
             modelBuilder.Entity("HospitalLargaVida.Backend.DAL.Models.Appointment", b =>
                 {
@@ -55,20 +33,25 @@ namespace HospitalLargaVida.Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentId"));
 
-                    b.Property<int>("AgendaId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.HasKey("AppointmentId");
 
-                    b.HasIndex("AgendaId")
-                        .IsUnique();
+                    b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
 
@@ -146,22 +129,11 @@ namespace HospitalLargaVida.Backend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HospitalLargaVida.Backend.DAL.Models.Agenda", b =>
-                {
-                    b.HasOne("HospitalLargaVida.Backend.DAL.Models.Doctor", "Doctor")
-                        .WithMany("Agendas")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-                });
-
             modelBuilder.Entity("HospitalLargaVida.Backend.DAL.Models.Appointment", b =>
                 {
-                    b.HasOne("HospitalLargaVida.Backend.DAL.Models.Agenda", "Agenda")
-                        .WithOne("Appointment")
-                        .HasForeignKey("HospitalLargaVida.Backend.DAL.Models.Appointment", "AgendaId")
+                    b.HasOne("HospitalLargaVida.Backend.DAL.Models.Doctor", "Doctor")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -171,20 +143,14 @@ namespace HospitalLargaVida.Backend.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Agenda");
+                    b.Navigation("Doctor");
 
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("HospitalLargaVida.Backend.DAL.Models.Agenda", b =>
-                {
-                    b.Navigation("Appointment")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HospitalLargaVida.Backend.DAL.Models.Doctor", b =>
                 {
-                    b.Navigation("Agendas");
+                    b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("HospitalLargaVida.Backend.DAL.Models.Patient", b =>

@@ -11,7 +11,6 @@ namespace HospitalLargaVida.Backend.Repositories.Interfaces
 
         Task<Appointment> GetAppointmentByIdAsync(int id);
 
-        Task<ICollection<Appointment>> GetDoctorAppointmentByIdAsunc(string doctorId);
 
         Task<ICollection<Appointment>> GetAllAppointmentsAsync();
 

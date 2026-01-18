@@ -37,7 +37,8 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
             return await _context
                  .Appointments
                  .Include(a => a.Patient)
-                 .Include(a => a.Doctor)
+                 .Include(a=>a.Agenda)
+                 .ThenInclude(ag => ag.Doctor)
                  .ToListAsync();
         }
 
@@ -46,16 +47,9 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
             return await _context
                 .Appointments
                  .Include(a => a.Patient)
-                 .Include(a => a.Doctor)
+                 .Include(a => a.Agenda)
+                 .ThenInclude(ag => ag.Doctor)
                 .FirstOrDefaultAsync(a => a.AppointmentId == id);
-        }
-
-        public async Task<ICollection<Appointment>> GetDoctorAppointmentByIdAsunc(string doctorId)
-        {
-            return await _context
-                .Appointments
-                .Where(a => a.DoctorId == doctorId)
-                .ToListAsync();
         }
 
         public async Task<bool> UpdateAppointmentAsync(Appointment appointment)

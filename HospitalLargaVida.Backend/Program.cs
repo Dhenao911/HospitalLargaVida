@@ -30,6 +30,11 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAgendaServices, AgendaServices>();
+builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
+
+
+
 
 var app = builder.Build();
 

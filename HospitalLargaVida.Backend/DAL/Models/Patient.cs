@@ -6,6 +6,7 @@
 
         public string NamePatient { get; set; }// Nombre del paciente
 
+        public DateTime DateOfBirth { get; set; }//Fecha Nacimiento
         public int Age { get; set; }// Edad del paciente
 
         public double Height { get; set; }// Altura del paciente

@@ -9,6 +9,6 @@ namespace HospitalLargaVida.Backend.DAL.Dtos.DoctorDto
         public string NameDoctor { get; set; }// Nombre del doctor
 
         public string Specialty { get; set; }// Especialidad del doctor
-        public ICollection<Appointment>? Appointments { get; set; }// Lista de citas del doctor
+        public ICollection<Agenda> Agendas { get; set; }
     }
 }

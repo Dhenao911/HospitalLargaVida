@@ -15,6 +15,9 @@ namespace HospitalLargaVida.Backend.DAL.Dtos.PatientDto
         public string NamePatient { get; set; }// Nombre del paciente
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        public DateTime DateOfBirth { get; set; }//Fecha Nacimiento
+
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Range(0, 120, ErrorMessage = "el campo {0} no permite numeros negativos")]
         public int Age { get; set; }// Edad del paciente
 

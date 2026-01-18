@@ -14,9 +14,10 @@ namespace HospitalLargaVida.Backend.DAL.Dtos.PatientDto
         [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$", ErrorMessage = "El campo {0} solo puede contener letras")]
         public string NamePatient { get; set; }// Nombre del paciente
 
+       
+
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [Range(0, 120, ErrorMessage = "el campo {0} no permite numeros negativos")]
-        public int Age { get; set; }// Edad del paciente
+        public DateTime DateOfBirth { get; set; }//Fecha Nacimiento
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Range(0.5, 250, ErrorMessage = "el campo {0} no permite numeros negativos")]

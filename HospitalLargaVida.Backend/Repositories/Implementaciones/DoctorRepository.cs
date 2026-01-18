@@ -37,6 +37,7 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
         {
             return await _context
                  .Doctors
+                .Include(ag => ag.Agendas)
                  .ToListAsync();
         }
 
@@ -44,7 +45,7 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
         {
             return await _context
                 .Doctors
-                .Include(d => d.Appointments)
+                .Include(ag => ag.Agendas)
                 .FirstOrDefaultAsync(d => d.DoctorId == doctorId);
         }
 
