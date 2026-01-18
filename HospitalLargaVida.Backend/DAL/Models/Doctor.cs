@@ -8,6 +8,6 @@
 
         public string Specialty { get; set; }// Especialidad del doctor
 
-        public ICollection<Appointment> Appointments { get; set; }// Lista de citas del doctor
+        public ICollection<Agenda> Agendas { get; set; }
     }
 }

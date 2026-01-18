@@ -11,14 +11,14 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
     {
         private readonly IPatientRepository _patientRepository;
         private readonly IAppointmentRepository _appointmentRepository;
-        private readonly IDoctorRepository _doctorRepository;
+        private readonly IAgendaRepository _agendaRepository;
         private readonly IMapper _mapper;
 
-        public AppointmentService(IPatientRepository patientRepository, IDoctorRepository doctorRepository,
+        public AppointmentService(IPatientRepository patientRepository, IAgendaRepository agendaRepository,
             IAppointmentRepository appointmentRepository, IMapper mapper)
         {
             _patientRepository = patientRepository;
-            _doctorRepository = doctorRepository;
+            _agendaRepository = agendaRepository;
             _appointmentRepository = appointmentRepository;
             _mapper = mapper;
         }
@@ -31,36 +31,22 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
                 throw new InvalidOperationException($"El paciente con ID {appointmentDto.PatientId} no existe.");
             }
 
-            var doctor = await _doctorRepository.GetDoctorByIdAsync(appointmentDto.DoctorId);
-
-            if (doctor == null)
+            var agenda = await _agendaRepository.GetAgendaByIdAsync(appointmentDto.AgendaId);
+            if (agenda == null)
             {
-                throw new InvalidOperationException($"El doctor con ID {appointmentDto.DoctorId} no existe.");
+                throw new InvalidOperationException($"La agenda con ID {appointmentDto.AgendaId} no existe.");
             }
 
-            if (appointmentDto.AppointmentDate < DateTime.Now)
+            if (agenda.statusAgenda != StatusAgenda.Disponible)
             {
-                throw new InvalidOperationException("La fecha de la cita no puede ser en el pasado.");
-            }
-
-            var doctorAppointments = await _appointmentRepository.GetDoctorAppointmentByIdAsunc(appointmentDto.DoctorId);
-
-            foreach (var a in doctorAppointments)
-            {
-                double diferencia = Math.Abs((a.AppointmentDate - appointmentDto.AppointmentDate).TotalMinutes);
-
-                if (diferencia < 30)
-                {
-                    throw new InvalidOperationException("El doctor ya tiene una cita programada en ese horario.");
-                }
+                throw new InvalidOperationException($"La agenda con ID {appointmentDto.AgendaId} no está disponible para citas.");
             }
 
             var appointment = new Appointment
             {
                 PatientId = appointmentDto.PatientId,
-                DoctorId = appointmentDto.DoctorId,
-                AppointmentDate = appointmentDto.AppointmentDate,
-                Status = AppointmentStatus.Program
+                AgendaId = appointmentDto.AgendaId,
+                AppointmentDate = agenda.AppointmentDate,
             };
 
             var createdAppointment = await _appointmentRepository.CreateAppointmentAsync(appointment);
@@ -68,6 +54,9 @@ namespace HospitalLargaVida.Backend.Services.Implementaciones
             {
                 throw new InvalidOperationException("No se pudo crear la cita.");
             }
+
+            agenda.statusAgenda = StatusAgenda.Ocupado;
+            await _agendaRepository.UpdateAgendaAsync(agenda);
 
             return _mapper.Map<AppointmentDetailDto>(appointment);
         }
