@@ -2,7 +2,9 @@
 using HospitalLargaVida.Backend.DAL.Dtos.AppointmentDto;
 using HospitalLargaVida.Backend.DAL.Dtos.DoctorDto;
 using HospitalLargaVida.Backend.DAL.Dtos.PatientDto;
+
 using HospitalLargaVida.Backend.DAL.Dtos.PatientDto;
+
 using HospitalLargaVida.Backend.DAL.Dtos.AgendaDto;
 using HospitalLargaVida.Backend.DAL.Models;
 
@@ -19,7 +21,10 @@ namespace HospitalLargaVida.Backend.Mappers
 
             //Agenda Mappings
 
-            CreateMap<Agenda, AgendaDetailsDto>().ReverseMap();
+            CreateMap<Agenda, AgendaDetailsDto>().
+                ForMember(dest => dest.NameDoctor, opt => opt.MapFrom(src => src.Doctor.NameDoctor))
+                .ForMember(dest => dest.Specialty, opt => opt.MapFrom(src => src.Doctor.Specialty));
+
             CreateMap<Agenda, CreateAgendaDto>().ReverseMap();
 
             //Doctor Mappings
@@ -31,9 +36,10 @@ namespace HospitalLargaVida.Backend.Mappers
             //appointment Mappings
 
             CreateMap<Appointment, AppointmentDetailDto>()
-                .ForMember(dest => dest.NamePatient, opt => opt.MapFrom(src => src.Patient.NamePatient))
-                .ForMember(dest => dest.NameDoctor, opt => opt.MapFrom(src => src.Agenda.Doctor.NameDoctor))
-            .ForMember(dest => dest.AppointmentDate, opt => opt.MapFrom(src => src.Agenda.AppointmentDate));
+            .ForMember(dest => dest.NamePatient, opt => opt.MapFrom(src => src.Patient.NamePatient))
+            .ForMember(dest => dest.NameDoctor, opt => opt.MapFrom(src => src.Agenda.Doctor.NameDoctor))
+            .ForMember(dest => dest.AppointmentDate, opt => opt.MapFrom(src => src.Agenda.AppointmentDate))
+            .ForMember(dest => dest.Specialty, opt => opt.MapFrom(src => src.Agenda.Doctor.Specialty));
         }
     }
 }

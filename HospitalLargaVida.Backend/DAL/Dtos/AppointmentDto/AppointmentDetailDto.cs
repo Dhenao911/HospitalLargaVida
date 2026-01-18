@@ -8,8 +8,8 @@
 
         public string NameDoctor { get; set; }
 
+        public string Specialty { get; set; }// Especialidad del doctor
+
         public DateTime AppointmentDate { get; set; }
-
-
     }
 }

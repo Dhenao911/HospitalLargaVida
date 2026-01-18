@@ -37,14 +37,15 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
             return await _context
                   .Agendas
                   .AsNoTracking()
+                  .Include(a => a.Doctor)
                   .FirstOrDefaultAsync(a => a.IdAgenda == id);
         }
 
         public async Task<bool> GetAgendasByDoctorIdAsync(string doctorId, int hour, int minute)
         {
             return await _context.Agendas
-                .AnyAsync(a => a.DoctorId == doctorId 
-                && a.AppointmentDate.Hour == hour 
+                .AnyAsync(a => a.DoctorId == doctorId
+                && a.AppointmentDate.Hour == hour
                 && a.AppointmentDate.Minute == minute);
         }
 
@@ -53,6 +54,7 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
             return _context
                  .Agendas
                  .AsNoTracking()
+                 .Include(a => a.Doctor)
                  .ToList();
         }
 
