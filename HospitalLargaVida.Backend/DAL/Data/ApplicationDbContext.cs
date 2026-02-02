@@ -18,7 +18,7 @@ namespace HospitalLargaVida.Backend.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Configuraciones adicionales si es necesario
+            // Configuraciones adicionales si es necesari
 
             modelBuilder.Entity<Patient>(x =>
             {
