@@ -5,7 +5,7 @@
 
         public static int calcularEdad(DateTime dateOfBirth)
         {
-            var today = DateTime.Now;
+            var today = DateTime.UtcNow;
             var age = today.Year - dateOfBirth.Year;
 
             if (dateOfBirth.Date > today.AddYears(-age))
