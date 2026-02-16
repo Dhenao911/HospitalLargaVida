@@ -1,5 +1,6 @@
 using HospitalLargaVida.Backend.DAL.Data;
 using HospitalLargaVida.Backend.Mappers;
+using HospitalLargaVida.Backend.Middlewares;
 using HospitalLargaVida.Backend.Repositories.Implementaciones;
 using HospitalLargaVida.Backend.Repositories.Interfaces;
 using HospitalLargaVida.Backend.Services.Implementaciones;
@@ -33,17 +34,17 @@ builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IAgendaServices, AgendaServices>();
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 
-
-
-
 var app = builder.Build();
+
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
 app.UseHttpsRedirection();
 
@@ -52,4 +53,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

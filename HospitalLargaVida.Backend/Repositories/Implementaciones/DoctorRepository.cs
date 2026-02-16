@@ -14,23 +14,17 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
             _context = context;
         }
 
-        public async Task<bool> CreateDoctorAsync(Doctor doctor)
+        public async Task CreateDoctorAsync(Doctor doctor)
         {
             await _context.Doctors.AddAsync(doctor);
-            return await SaveChanges();
+            await SaveChanges();
         }
 
-        public async Task<bool> DeleteDoctorAsync(string doctorId)
+        public async Task DeleteDoctorAsync(Doctor doctor)
         {
-            var doctor = await GetDoctorByIdAsync(doctorId);
-            if (doctor == null)
-            {
-                return false;
-            }
-
             _context.Doctors.Remove(doctor);
 
-            return await SaveChanges();
+            await SaveChanges();
         }
 
         public async Task<ICollection<Doctor>> GetAllDoctorsAsync()
@@ -49,15 +43,15 @@ namespace HospitalLargaVida.Backend.Repositories.Implementaciones
                 .FirstOrDefaultAsync(d => d.DoctorId == doctorId);
         }
 
-        public async Task<bool> UpdateDoctorAsync(Doctor doctor)
+        public async Task UpdateDoctorAsync(Doctor doctor)
         {
             _context.Doctors.Update(doctor);
-            return await SaveChanges();
+            await SaveChanges();
         }
 
-        private async Task<bool> SaveChanges()
+        private async Task SaveChanges()
         {
-            return await _context.SaveChangesAsync() > 0 ? true : false;
+            await _context.SaveChangesAsync();
         }
     }
 }

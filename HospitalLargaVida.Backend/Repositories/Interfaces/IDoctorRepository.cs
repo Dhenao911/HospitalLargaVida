@@ -4,15 +4,15 @@ namespace HospitalLargaVida.Backend.Repositories.Interfaces
 {
     public interface IDoctorRepository
     {
-        Task<bool> CreateDoctorAsync(Doctor doctor);
+        Task CreateDoctorAsync(Doctor doctor);
 
-        Task<bool> DeleteDoctorAsync(string doctorId);
+        Task DeleteDoctorAsync(Doctor doctor);
 
         Task<ICollection<Doctor>> GetAllDoctorsAsync();
 
         Task<Doctor> GetDoctorByIdAsync(string doctorId);
 
-        Task<bool> UpdateDoctorAsync(Doctor doctor);
+        Task UpdateDoctorAsync(Doctor doctor);
 
     }
 }

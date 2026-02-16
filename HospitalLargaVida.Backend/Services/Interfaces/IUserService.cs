@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HospitalLargaVida.Backend.DAL.Dtos.UserDto;
+using Microsoft.AspNetCore.Identity;
 
 namespace HospitalLargaVida.Backend.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<IdentityResult> RegisterUserAsync();
+        Task<IdentityResult> RegisterUserAsync(RegisterUserDto dto);
 
-        Task<IdentityResult> UpdapteUserAsync();
+        Task<IdentityResult> UpdapteUserAsync(string id, UpdateUserDto dto);
 
-        Task<IdentityResult> ChangesPasswordAsync();
+        Task<IdentityResult> ChangesPasswordAsync(string id, ChangesPasswordDto dto);
     }
 }

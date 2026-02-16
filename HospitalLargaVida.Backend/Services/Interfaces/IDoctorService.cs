@@ -7,7 +7,7 @@ namespace HospitalLargaVida.Backend.Services.Interfaces
     {
         Task<DoctorDetailsDto> CreateDoctorAsync(CreateDoctorDto doctordTO);
 
-        Task<bool> DeleteDoctorAsync(string doctorId);
+        Task DeleteDoctorAsync(string doctorId);
 
         Task<ICollection<DoctorDetailsDto>> GetAllDoctorsAsync();
 
